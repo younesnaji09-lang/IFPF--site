@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFPF – Institut de Formation Professionnelle de France</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1f3c;
+    --navy-light: #162d54;
+    --gold: #c8973a;
+    --gold-light: #e4b860;
+    --gold-pale: #f5e6c8;
+    --white: #ffffff;
+    --off-white: #f8f6f1;
+    --gray: #6b7280;
+    --gray-light: #e5e7eb;
+    --text: #1a1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── COOKIE BANNER ─── */
+  .cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: rgba(13,31,60,0.97);
+    color: #ccc;
+    font-size: 13px;
+    padding: 14px 32px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    border-top: 2px solid var(--gold);
+  }
+  .cookie-banner a { color: var(--gold); }
+  .cookie-banner .btns { display: flex; gap: 10px; margin-left: auto; }
+  .cookie-banner button {
+    padding: 8px 18px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: 'DM Sans', sans-serif;
+  }
+  .cookie-accept { background: var(--gold); color: white; border: none; }
+  .cookie-decline { background: transparent; color: #aaa; border: 1px solid #555; }
+  .cookie-banner.hidden { display: none; }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    background: var(--navy);
+    color: rgba(255,255,255,0.75);
+    font-size: 12.5px;
+    padding: 7px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .topbar-inner { max-width: 1260px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; width: 100%; }
+  .topbar-right { display: flex; gap: 24px; align-items: center; }
+  .topbar-right a { color: rgba(255,255,255,0.75); text-decoration: none; }
+  .topbar-right a:hover { color: var(--gold); }
+  .topbar-right span { color: var(--gold-light); }
+
+  /* ─── HEADER / NAV ─── */
+  header {
+    background: var(--white);
+    position: sticky; top: 0; z-index: 1000;
+    box-shadow: 0 2px 20px rgba(13,31,60,0.10);
+    border-bottom: 3px solid var(--gold);
+  }
+  nav {
+    max-width: 1260px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; gap: 0;
+    height: 72px;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; flex-shrink: 0; margin-right: 32px;
+  }
+  .logo-mark {
+    width: 50px; height: 50px;
+    background: var(--navy);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .logo-mark span {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 20px; color: var(--gold);
+    letter-spacing: -1px;
+  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+  .logo-text .abbr {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 22px; color: var(--navy); letter-spacing: 2px;
+  }
+  .logo-text .full {
+    font-size: 9px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; font-weight: 500;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 0; list-style: none; flex: 1;
+  }
+  .nav-links > li { position: relative; }
+  .nav-links > li > a, .nav-links > li > span {
+    display: flex; align-items: center; gap: 4px;
+    padding: 0 16px; height: 72px;
+    font-size: 12.5px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--navy); text-decoration: none; cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+  }
+  .nav-links > li > a:hover, .nav-links > li:hover > span {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .nav-links > li > a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .dropdown {
+    position: absolute; top: 100%; left: 0;
+    background: var(--white);
+    min-width: 240px;
+    box-shadow: 0 8px 40px rgba(13,31,60,0.15);
+    border-top: 3px solid var(--gold);
+    border-radius: 0 0 4px 4px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-6px);
+    transition: all 0.2s ease;
+    z-index: 100;
+  }
+  .nav-links > li:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+
+  .dropdown a {
+    display: block; padding: 12px 20px;
+    font-size: 12.5px; font-weight: 500; color: var(--navy);
+    text-decoration: none; border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s;
+  }
+  .dropdown a:last-child { border-bottom: none; }
+  .dropdown a:hover { background: var(--off-white); color: var(--gold); padding-left: 26px; }
+  .dropdown-cat {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 700;
+    padding: 14px 20px 6px; display: block;
+    border-bottom: 1px solid var(--gold-pale);
+  }
+
+  .nav-cta {
+    margin-left: auto;
+    background: var(--gold); color: var(--white);
+    padding: 12px 24px; border-radius: 2px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; white-space: nowrap;
+    transition: all 0.25s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--navy); color: var(--gold); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 26px; height: 2px; background: var(--navy); transition: all 0.3s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 92vh;
+    background: var(--navy);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(200,151,58,0.12) 0%, transparent 70%),
+      linear-gradient(135deg, #0d1f3c 0%, #162d54 40%, #0a1628 100%);
+  }
+  /* decorative pattern */
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px);
+  }
+  .hero-deco {
+    position: absolute; right: -80px; top: -80px;
+    width: 600px; height: 600px; border-radius: 50%;
+    border: 80px solid rgba(200,151,58,0.06);
+  }
+  .hero-deco2 {
+    position: absolute; right: 120px; bottom: -120px;
+    width: 380px; height: 380px; border-radius: 50%;
+    border: 50px solid rgba(200,151,58,0.08);
+  }
+  .hero-bar {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 5px; background: var(--gold);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 1260px; margin: 0 auto; padding: 0 32px;
+    flex: 1; display: flex; align-items: center; gap: 80px;
+  }
+  .hero-left { flex: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(200,151,58,0.15); border: 1px solid rgba(200,151,58,0.4);
+    color: var(--gold-light); font-size: 11.5px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; padding: 8px 18px; border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 700; color: var(--white); line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero p {
+    color: rgba(255,255,255,0.72); font-size: 17px; line-height: 1.7;
+    max-width: 540px; margin-bottom: 40px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--white);
+    padding: 15px 36px; font-weight: 700; font-size: 13px; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--white); color: var(--navy); }
+  .btn-outline {
+    border: 2px solid rgba(255,255,255,0.35); color: var(--white);
+    padding: 13px 32px; font-weight: 600; font-size: 13px; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    transition: all 0.3s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 60px;
+    padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; margin-top: 4px; }
+
+  .hero-right { flex: 0 0 380px; }
+  .hero-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(200,151,58,0.3);
+    backdrop-filter: blur(10px);
+    padding: 36px; border-radius: 4px;
+  }
+  .hero-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; color: var(--white); margin-bottom: 6px;
+  }
+  .hero-card p { font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 24px; }
+  .card-form { display: flex; flex-direction: column; gap: 12px; }
+  .card-form input, .card-form select {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--white); padding: 12px 16px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 13.5px;
+    width: 100%;
+  }
+  .card-form input::placeholder { color: rgba(255,255,255,0.4); }
+  .card-form select option { background: var(--navy); }
+  .card-form button {
+    background: var(--gold); color: white; border: none; padding: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    transition: background 0.2s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .card-form button:hover { background: var(--gold-light); }
+
+  .hero-scroll {
+    position: relative; z-index: 2;
+    display: flex; justify-content: center; padding: 28px;
+  }
+  .scroll-indicator {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.4); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; text-decoration: none;
+  }
+  .scroll-arrow {
+    width: 24px; height: 24px; border-right: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
+    transform: rotate(45deg); animation: bounce 1.8s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 90px 0; }
+  .container { max-width: 1260px; margin: 0 auto; padding: 0 32px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700;
+    color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; width: 30px; height: 2px; background: var(--gold); }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px); font-weight: 700;
+    color: var(--navy); line-height: 1.15; margin-bottom: 16px;
+  }
+  h2 em { color: var(--gold); font-style: normal; }
+  .lead { font-size: 17px; color: var(--gray); line-height: 1.7; max-width: 660px; }
+
+  /* ─── QUICK LINKS BAR ─── */
+  .quick-links {
+    background: var(--off-white);
+    border-bottom: 1px solid var(--gray-light);
+    padding: 0;
+  }
+  .quick-inner {
+    max-width: 1260px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4,1fr);
+  }
+  .quick-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 24px 28px; cursor: pointer;
+    border-right: 1px solid var(--gray-light);
+    text-decoration: none; color: var(--navy);
+    transition: background 0.2s;
+  }
+  .quick-item:last-child { border-right: none; }
+  .quick-item:hover { background: var(--white); }
+  .quick-icon {
+    width: 44px; height: 44px; background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px; flex-shrink: 0;
+    font-size: 20px;
+  }
+  .quick-item:hover .quick-icon { background: var(--gold); }
+  .quick-text h4 { font-size: 13.5px; font-weight: 700; color: var(--navy); }
+  .quick-text p { font-size: 11.5px; color: var(--gray); margin-top: 2px; }
+
+  /* ─── FORMATIONS ─── */
+  .formations-section { background: var(--white); }
+  .formations-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
+  .formations-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+  .formation-card {
+    border: 1px solid var(--gray-light); border-radius: 4px;
+    overflow: hidden; position: relative;
+    transition: all 0.3s; cursor: pointer;
+  }
+  .formation-card:hover { box-shadow: 0 20px 60px rgba(13,31,60,0.12); transform: translateY(-4px); }
+  .formation-card-top {
+    background: var(--navy); padding: 32px 28px 28px;
+    position: relative; overflow: hidden;
+  }
+  .formation-card-top::after {
+    content: ''; position: absolute; bottom: -20px; right: -20px;
+    width: 100px; height: 100px; border-radius: 50%;
+    background: rgba(200,151,58,0.12);
+  }
+  .formation-badge {
+    display: inline-block; background: var(--gold);
+    color: white; font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; padding: 4px 12px; border-radius: 2px; margin-bottom: 16px;
+  }
+  .formation-card-top h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; color: var(--white); font-weight: 700; line-height: 1.2;
+  }
+  .formation-card-top .niveau {
+    font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .formation-card-top .niveau::before { content: ''; width: 16px; height: 1px; background: var(--gold); }
+  .formation-card-body { padding: 24px 28px; }
+  .formation-domains { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .domain-tag {
+    font-size: 11.5px; background: var(--off-white); color: var(--navy);
+    padding: 5px 12px; border-radius: 50px; font-weight: 500;
+    border: 1px solid var(--gray-light);
+  }
+  .formation-card-footer {
+    padding: 16px 28px; border-top: 1px solid var(--gray-light);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .formation-card-footer .link {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; color: var(--gold);
+    text-decoration: none; text-transform: uppercase; display: flex; align-items: center; gap: 6px;
+  }
+  .arrow-right {
+    width: 20px; height: 20px; background: var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: white; transition: transform 0.2s;
+  }
+  .formation-card:hover .arrow-right { transform: translateX(4px); }
+
+  /* ─── PRESENTATION / ABOUT ─── */
+  .about-section { background: var(--off-white); }
+  .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual { position: relative; }
+  .about-img-main {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    border-radius: 4px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-img-placeholder {
+    width: 100%; aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 4px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  }
+  .about-img-placeholder .placeholder-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px; font-weight: 900; color: rgba(200,151,58,0.3);
+    letter-spacing: -2px;
+  }
+  .about-img-placeholder p { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .about-badge-float {
+    position: absolute; bottom: -24px; right: -24px;
+    background: var(--gold); padding: 24px 28px; border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(200,151,58,0.3);
+  }
+  .about-badge-float .big { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: white; line-height: 1; }
+  .about-badge-float .small { font-size: 11px; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+  .about-list { margin: 28px 0; display: flex; flex-direction: column; gap: 16px; }
+  .about-list-item {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .check-icon {
+    width: 24px; height: 24px; background: var(--gold); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white; flex-shrink: 0; margin-top: 2px;
+  }
+  .about-list-item h4 { font-size: 14.5px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .about-list-item p { font-size: 13.5px; color: var(--gray); line-height: 1.6; }
+
+  /* ─── EQUIP / INFRA ─── */
+  .equip-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; margin-top: 56px; }
+  .equip-card {
+    background: var(--white); border: 1px solid var(--gray-light);
+    padding: 32px 24px; border-radius: 4px; text-align: center;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .equip-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .equip-card:hover { box-shadow: 0 10px 40px rgba(13,31,60,0.08); transform: translateY(-3px); }
+  .equip-card:hover::before { transform: scaleX(1); }
+  .equip-icon { font-size: 36px; margin-bottom: 16px; }
+  .equip-card h4 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--navy); }
+  .equip-card p { font-size: 13px; color: var(--gray); margin-top: 6px; }
+
+  /* ─── VALEURS ─── */
+  .valeurs-section { background: var(--navy); position: relative; overflow: hidden; }
+  .valeurs-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 80% at 80% 50%, rgba(200,151,58,0.1), transparent);
+  }
+  .valeurs-section .section-label { color: var(--gold); }
+  .valeurs-section h2 { color: var(--white); }
+  .valeurs-section h2 em { color: var(--gold); }
+  .valeurs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 56px; }
+  .valeur-card {
+    border: 1px solid rgba(200,151,58,0.2);
+    padding: 40px 32px; border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    transition: all 0.3s;
+  }
+  .valeur-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+  .valeur-num {
+    font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 900;
+    color: rgba(200,151,58,0.2); line-height: 1; margin-bottom: 16px;
+  }
+  .valeur-icon { font-size: 28px; margin-bottom: 16px; }
+  .valeur-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .valeur-card p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* ─── POURQUOI ─── */
+  .pourquoi-section { background: var(--white); }
+  .pourquoi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .pourquoi-list { display: flex; flex-direction: column; gap: 0; }
+  .pourquoi-item {
+    display: flex; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--gray-light);
+    align-items: flex-start; cursor: pointer; transition: all 0.2s;
+  }
+  .pourquoi-item:first-child { border-top: 1px solid var(--gray-light); }
+  .pourquoi-item:hover .pourquoi-num { background: var(--gold); color: white; }
+  .pourquoi-num {
+    width: 48px; height: 48px; border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold);
+    border-radius: 2px; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .pourquoi-text h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .pourquoi-text p { font-size: 13.5px; color: var(--gray); line-height: 1.6; }
+
+  .pourquoi-visual {
+    background: var(--off-white); border-radius: 4px; padding: 48px;
+    border: 1px solid var(--gray-light); position: relative;
+  }
+  .qualiopi-badge {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--white); border: 2px solid var(--gold);
+    padding: 20px 24px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .qualiopi-icon { font-size: 32px; }
+  .qualiopi-text h4 { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .qualiopi-text p { font-size: 12px; color: var(--gray); }
+
+  .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cert-item {
+    background: var(--white); padding: 16px;
+    border-radius: 4px; border: 1px solid var(--gray-light);
+    font-size: 12.5px; font-weight: 600; color: var(--navy); text-align: center;
+  }
+
+  /* ─── APPRENTISSAGE ─── */
+  .apprentissage-section { background: var(--off-white); }
+  .apprent-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .apprent-steps { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
+  .step {
+    display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px dashed var(--gray-light);
+    position: relative;
+  }
+  .step-line {
+    position: absolute; left: 19px; top: 48px; bottom: -20px; width: 2px; background: var(--gold-pale);
+  }
+  .step:last-child .step-line { display: none; }
+  .step-dot {
+    width: 40px; height: 40px; background: var(--navy); border: 2px solid var(--gold);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: var(--gold); flex-shrink: 0;
+  }
+  .step h4 { font-size: 14.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .step p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+  /* ─── TESTIMONIALS ─── */
+  .temoignages-section { background: var(--white); }
+  .temo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 56px; }
+  .temo-card {
+    background: var(--off-white); border: 1px solid var(--gray-light);
+    padding: 36px 32px; border-radius: 4px; position: relative;
+    transition: all 0.3s;
+  }
+  .temo-card:hover { box-shadow: 0 15px 50px rgba(13,31,60,0.10); transform: translateY(-4px); }
+  .temo-card::before {
+    content: '"'; font-family: 'Playfair Display', serif;
+    font-size: 120px; color: var(--gold); opacity: 0.12;
+    position: absolute; top: -10px; left: 20px; line-height: 1;
+  }
+  .temo-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+  .temo-text { font-size: 14.5px; color: var(--gray); line-height: 1.75; font-style: italic; margin-bottom: 24px; }
+  .temo-author { display: flex; align-items: center; gap: 14px; }
+  .temo-avatar {
+    width: 46px; height: 46px; background: var(--navy); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); font-weight: 700;
+  }
+  .temo-info h5 { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .temo-info span { font-size: 12px; color: var(--gray); }
+
+  /* ─── RELATION ENTREPRISE ─── */
+  .entreprise-section {
+    background: var(--navy); position: relative; overflow: hidden;
+  }
+  .entreprise-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 20% 50%, rgba(200,151,58,0.08), transparent);
+  }
+  .entreprise-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; }
+  .entreprise-section h2 { color: white; }
+  .entreprise-section .lead { color: rgba(255,255,255,0.65); }
+  .entreprise-section .section-label { color: var(--gold); }
+  .entreprise-cards { display: flex; flex-direction: column; gap: 16px; }
+  .ent-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(200,151,58,0.2);
+    padding: 24px 28px; border-radius: 4px; display: flex; gap: 20px; align-items: center;
+    cursor: pointer; transition: all 0.25s; text-decoration: none;
+  }
+  .ent-card:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); transform: translateX(6px); }
+  .ent-icon { font-size: 28px; flex-shrink: 0; }
+  .ent-card h4 { font-size: 14.5px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .ent-card p { font-size: 12.5px; color: rgba(255,255,255,0.55); }
+
+  /* ─── ACTUALITES ─── */
+  .actu-section { background: var(--off-white); }
+  .actu-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; margin-top: 56px; }
+  .actu-card {
+    background: var(--white); border: 1px solid var(--gray-light);
+    border-radius: 4px; overflow: hidden; cursor: pointer; transition: all 0.3s;
+  }
+  .actu-card:hover { box-shadow: 0 15px 50px rgba(13,31,60,0.10); transform: translateY(-4px); }
+  .actu-img {
+    height: 180px;
+    background: var(--navy); display: flex; align-items: center; justify-content: center;
+    font-size: 40px; position: relative; overflow: hidden;
+  }
+  .actu-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(13,31,60,0.5));
+  }
+  .actu-date {
+    position: absolute; bottom: 12px; left: 16px; z-index: 1;
+    background: var(--gold); color: white; font-size: 10.5px; font-weight: 700;
+    padding: 4px 10px; border-radius: 2px; letter-spacing: 0.5px;
+  }
+  .actu-body { padding: 24px 24px 20px; }
+  .actu-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .actu-body h4 { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy); font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
+  .actu-body p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .actu-footer { padding: 0 24px 20px; }
+  .actu-link { font-size: 12px; font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.5px; }
+
+  /* ─── CTA BAND ─── */
+  .cta-band {
+    background: var(--gold);
+    padding: 60px 0;
+    position: relative; overflow: hidden;
+  }
+  .cta-band::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.04) 20px, rgba(255,255,255,0.04) 40px);
+  }
+  .cta-inner {
+    max-width: 1260px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    position: relative;
+  }
+  .cta-band h2 {
+    font-family: 'Playfair Display', serif; font-size: 32px;
+    color: var(--white); font-weight: 700; max-width: 600px; line-height: 1.2;
+  }
+  .cta-band h2 span { color: var(--navy); }
+  .cta-btn {
+    background: var(--navy); color: white; padding: 16px 40px;
+    font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; white-space: nowrap;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .cta-btn:hover { background: var(--white); color: var(--navy); }
+
+  /* ─── CONTACT ─── */
+  .contact-section { background: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; margin-top: 56px; }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    padding: 24px 20px; background: var(--off-white);
+    border-left: 3px solid var(--gold); border-radius: 2px;
+  }
+  .contact-card-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .contact-card h4 { font-size: 13px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .contact-card p, .contact-card a { font-size: 14.5px; color: var(--navy); text-decoration: none; font-weight: 500; line-height: 1.6; }
+  .contact-card a:hover { color: var(--gold); }
+
+  .contact-form { background: var(--off-white); padding: 40px; border-radius: 4px; border: 1px solid var(--gray-light); }
+  .contact-form h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 6px; }
+  .contact-form > p { font-size: 13.5px; color: var(--gray); margin-bottom: 28px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-group label { font-size: 12px; font-weight: 700; color: var(--navy); letter-spacing: 0.5px; text-transform: uppercase; }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 1px solid var(--gray-light); border-radius: 2px;
+    padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+    background: var(--white); transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--gold);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--navy); color: white; border: none; width: 100%;
+    padding: 15px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--gold); }
+
+  /* ─── MAP EMBED ─── */
+  .map-section { padding: 0; height: 380px; }
+  .map-section iframe { width: 100%; height: 100%; border: 0; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.65);
+    padding: 64px 0 0;
+    border-top: 3px solid var(--gold);
+  }
+  .footer-grid {
+    max-width: 1260px; margin: 0 auto; padding: 0 32px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand .logo { margin-bottom: 20px; }
+  .footer-brand p { font-size: 13.5px; line-height: 1.8; }
+  .footer-brand .social { display: flex; gap: 10px; margin-top: 24px; }
+  .social-btn {
+    width: 38px; height: 38px; border: 1px solid rgba(200,151,58,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: rgba(255,255,255,0.6);
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    border-radius: 2px;
+  }
+  .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+  .footer-col h4 {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a {
+    font-size: 13.5px; color: rgba(255,255,255,0.55); text-decoration: none;
+    transition: color 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .footer-col ul li a::before { content: '›'; color: var(--gold); font-size: 16px; }
+  .footer-col ul li a:hover { color: var(--gold); padding-left: 4px; }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 22px 32px;
+    max-width: 1260px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 12px; }
+  .footer-bottom-links { display: flex; gap: 20px; }
+  .footer-bottom-links a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+  .footer-bottom-links a:hover { color: var(--gold); }
+  .footer-bottom-outer { background: var(--navy); }
+
+  /* ─── NEWSLETTER STRIPE ─── */
+  .newsletter-stripe {
+    background: rgba(255,255,255,0.04);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 32px;
+  }
+  .newsletter-inner {
+    max-width: 1260px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  }
+  .newsletter-inner p { font-size: 14px; color: rgba(255,255,255,0.65); flex: 1; min-width: 200px; }
+  .newsletter-inner strong { color: var(--gold); }
+  .newsletter-form { display: flex; gap: 10px; }
+  .newsletter-form input {
+    padding: 11px 18px; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15); color: white;
+    font-family: 'DM Sans', sans-serif; font-size: 13.5px; border-radius: 2px; min-width: 240px;
+  }
+  .newsletter-form input::placeholder { color: rgba(255,255,255,0.4); }
+  .newsletter-form button {
+    background: var(--gold); color: white; border: none;
+    padding: 11px 24px; font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 12px; letter-spacing: 1px;
+    text-transform: uppercase; cursor: pointer; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .newsletter-form button:hover { background: var(--gold-light); }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  .whatsapp-float {
+    position: fixed; bottom: 90px; right: 24px; z-index: 900;
+    width: 56px; height: 56px; background: #25d366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    font-size: 26px; cursor: pointer; transition: transform 0.2s;
+    text-decoration: none;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); }
+
+  /* ─── BACK TO TOP ─── */
+  .back-top {
+    position: fixed; bottom: 24px; right: 24px; z-index: 900;
+    width: 44px; height: 44px; background: var(--gold); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(200,151,58,0.4);
+    transition: all 0.2s; opacity: 0; pointer-events: none;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  }
+  .back-top.visible { opacity: 1; pointer-events: all; }
+  .back-top:hover { background: var(--navy); }
+
+  /* ─── MOBILE NAV ─── */
+  .mobile-menu {
+    position: fixed; inset: 0; background: var(--navy); z-index: 2000;
+    display: flex; flex-direction: column; padding: 80px 32px 32px;
+    transform: translateX(100%); transition: transform 0.35s ease;
+    overflow-y: auto;
+  }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-close {
+    position: absolute; top: 20px; right: 24px;
+    background: none; border: none; color: white; font-size: 28px; cursor: pointer;
+  }
+  .mobile-menu a {
+    display: block; padding: 15px 0; font-size: 17px; font-weight: 600;
+    color: rgba(255,255,255,0.8); text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu .m-gold { color: var(--gold); font-weight: 700; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .formations-grid { grid-template-columns: 1fr 1fr; }
+    .temo-grid { grid-template-columns: 1fr 1fr; }
+    .actu-grid { grid-template-columns: 1fr 1fr; }
+    .equip-grid { grid-template-columns: repeat(2,1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .hero-right { display: none; }
+    .hero-content { padding: 60px 32px; }
+  }
+  @media (max-width: 768px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; margin-left: auto; }
+    .formations-grid, .about-inner, .pourquoi-grid, .apprent-inner, .entreprise-inner,
+    .contact-grid, .valeurs-grid, .temo-grid, .actu-grid { grid-template-columns: 1fr; }
+    .quick-inner { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .form-row { grid-template-columns: 1fr; }
+    .cta-inner { flex-direction: column; text-align: center; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .topbar { display: none; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .about-badge-float { position: static; margin-top: 20px; display: inline-block; }
+  }
+  @media (max-width: 480px) {
+    .quick-inner { grid-template-columns: 1fr; }
+    .equip-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+  .delay-4 { animation-delay: 0.6s; }
+</style>
+</head>
+<body>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <span>En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies pour mesurer l'audience. <a href="#mentions">En savoir plus</a></span>
+  <div class="btns">
+    <button class="cookie-accept" onclick="document.getElementById('cookieBanner').classList.add('hidden')">OK, j'accepte</button>
+    <button class="cookie-decline" onclick="document.getElementById('cookieBanner').classList.add('hidden')">Non</button>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span>🎓 L'Institut de Formation Professionnelle de référence à Mayotte</span>
+    <div class="topbar-right">
+      <a href="tel:0697379297">📞 0697 379 02 97</a>
+      <a href="mailto:contact@ifpf.pro">✉ contact@ifpf.pro</a>
+      <span>🌐 www.ifpf.pro</span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <nav>
+    <a href="#accueil" class="logo">
+      <div class="logo-mark"><span>IF</span></div>
+      <div class="logo-text">
+        <span class="abbr">IFPF</span>
+        <span class="full">Institut de Formation Professionnelle de France</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li>
+        <span>L'IFPF ▾</span>
+        <div class="dropdown">
+          <a href="#presentation">Présentation</a>
+          <a href="#pourquoi">Pourquoi nous choisir ?</a>
+          <a href="#valeurs">Nos valeurs</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </li>
+      <li>
+        <span>FORMATIONS ▾</span>
+        <div class="dropdown">
+          <span class="dropdown-cat">Formation Initiale</span>
+          <a href="#formations">BTS Gestion de la PME</a>
+          <a href="#formations">Préparation BAC</a>
+          <span class="dropdown-cat">Formation Continue</span>
+          <a href="#formations">Secrétariat &amp; RH</a>
+          <a href="#formations">Commerce &amp; Vente</a>
+          <a href="#formations">Comptabilité &amp; Finance</a>
+          <a href="#formations">Numérique</a>
+          <a href="#formations">Tourisme &amp; Accueil</a>
+          <a href="#formations">Candidature en ligne</a>
+        </div>
+      </li>
+      <li>
+        <span>APPRENTISSAGE ▾</span>
+        <div class="dropdown">
+          <a href="#apprentissage">L'apprentissage</a>
+          <a href="#apprentissage">Candidature en ligne</a>
+        </div>
+      </li>
+      <li>
+        <span>ENTREPRISES ▾</span>
+        <div class="dropdown">
+          <a href="#entreprise">Recruter un apprenti</a>
+          <a href="#entreprise">Déposer une offre de stage</a>
+          <a href="#entreprise">Devenir partenaire</a>
+        </div>
+      </li>
+      <li><a href="#actualites">ACTUALITÉS</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta">Nous contacter</a>
+    <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+  <a href="#presentation">Présentation</a>
+  <a href="#formations">Formations</a>
+  <a href="#apprentissage">Apprentissage</a>
+  <a href="#entreprise">Relation Entreprise</a>
+  <a href="#actualites">Actualités</a>
+  <a href="#contact" class="m-gold">→ Nous contacter</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="accueil">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-deco2"></div>
+  <div class="hero-bar"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge fade-up">Institut certifié Qualiopi · Mayotte, France</div>
+      <h1 class="fade-up delay-1">
+        L'<em>Excellence</em><br>
+        en Formation<br>Professionnelle
+      </h1>
+      <p class="fade-up delay-2">
+        L'IFPF propose des formations initiales et continues de qualité, certifiées par le Ministère du Travail et reconnues par l'État. Construisez votre avenir professionnel avec nous à Chirongui, Mayotte.
+      </p>
+      <div class="hero-btns fade-up delay-3">
+        <a href="#formations" class="btn-primary">Découvrir nos formations</a>
+        <a href="#contact" class="btn-outline">Nous contacter</a>
+      </div>
+      <div class="hero-stats fade-up delay-4">
+        <div class="stat-item">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Années d'expérience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Diplômés formés</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">15+</span>
+          <span class="stat-label">Formations certifiées</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">85%</span>
+          <span class="stat-label">Taux d'insertion</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <h3>Candidater en ligne</h3>
+        <p>Remplissez le formulaire, nous vous recontactons sous 48h.</p>
+        <div class="card-form">
+          <input type="text" placeholder="Votre prénom et nom">
+          <input type="email" placeholder="Votre adresse e-mail">
+          <input type="tel" placeholder="Votre téléphone">
+          <select>
+            <option value="">— Choisir une formation —</option>
+            <option>BTS Gestion de la PME</option>
+            <option>Secrétaire Assistant(e)</option>
+            <option>Assistant(e) Ressources Humaines</option>
+            <option>Conseiller de Vente</option>
+            <option>Développeur Web</option>
+            <option>Comptable Assistant</option>
+            <option>Conseiller en Insertion Professionnelle</option>
+          </select>
+          <button>Envoyer ma candidature →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#formations" class="hero-scroll">
+    <div class="scroll-indicator">
+      <div class="scroll-arrow"></div>
+    </div>
+  </a>
+</section>
+
+<!-- QUICK LINKS -->
+<div class="quick-links">
+  <div class="quick-inner">
+    <a href="#formations" class="quick-item">
+      <div class="quick-icon">🎓</div>
+      <div class="quick-text">
+        <h4>Formation Continue</h4>
+        <p>Titres professionnels du Bac au Bac+2</p>
+      </div>
+    </a>
+    <a href="#formations" class="quick-item">
+      <div class="quick-icon">🏫</div>
+      <div class="quick-text">
+        <h4>Formation Initiale</h4>
+        <p>BTS, BAC — Diplômes d'État</p>
+      </div>
+    </a>
+    <a href="#apprentissage" class="quick-item">
+      <div class="quick-icon">🤝</div>
+      <div class="quick-text">
+        <h4>Apprentissage</h4>
+        <p>Se former en alternance, être rémunéré</p>
+      </div>
+    </a>
+    <a href="#entreprise" class="quick-item">
+      <div class="quick-icon">🏢</div>
+      <div class="quick-text">
+        <h4>Relation Entreprise</h4>
+        <p>Recruter, partenariat, offres de stage</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ═══ FORMATIONS ═══ -->
+<section class="formations-section" id="formations">
+  <div class="container">
+    <div class="formations-header">
+      <div>
+        <div class="section-label">Nos Formations</div>
+        <h2>Des parcours certifiés pour<br><em>bâtir votre carrière</em></h2>
+      </div>
+      <p class="lead" style="max-width:380px;text-align:right;">Formations validées par le Ministère du Travail — Titres RNCP reconnus à l'échelle nationale.</p>
+    </div>
+
+    <div class="formations-grid">
+      <!-- Card 1 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Formation Continue</div>
+          <h3>Secrétariat & Ressources Humaines</h3>
+          <div class="niveau">Niveau 4 à 5 · Bac au Bac+2</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">Secrétaire Assistant(e)</span>
+            <span class="domain-tag">Assistant(e) RH</span>
+            <span class="domain-tag">Assistant de Direction</span>
+            <span class="domain-tag">CIP</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Maîtrisez les outils de gestion administrative, du personnel et d'insertion professionnelle.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">RNCP reconnu</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Formation Continue</div>
+          <h3>Commerce & Vente</h3>
+          <div class="niveau">Niveau 3 à 5 · CAP au Bac+2</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">Conseiller de Vente</span>
+            <span class="domain-tag">Employé Commercial</span>
+            <span class="domain-tag">Assistant Commercial</span>
+            <span class="domain-tag">Manager Unité Marchande</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Devenez un professionnel de la relation client, de la vente et du management commercial.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">RNCP reconnu</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Formation Continue</div>
+          <h3>Comptabilité & Finance</h3>
+          <div class="niveau">Niveau 4 à 5 · Bac au Bac+2</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">Comptable Assistant</span>
+            <span class="domain-tag">Gestionnaire Comptable & Fiscal</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Maîtrisez la comptabilité générale, la fiscalité et les logiciels de gestion financière.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">RNCP reconnu</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Numérique</div>
+          <h3>Métiers du Numérique</h3>
+          <div class="niveau">Niveau 5 · Bac+2</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">Développeur Web</span>
+            <span class="domain-tag">Infographiste</span>
+            <span class="domain-tag">Technicien Informatique</span>
+            <span class="domain-tag">CléA Numérique</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Intégrez le secteur du numérique avec des compétences opérationnelles et reconnues.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">RNCP reconnu</span>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Tourisme</div>
+          <h3>Tourisme & Accueil</h3>
+          <div class="niveau">Niveau 4 à 5 · Bac au Bac+2</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">Chargé d'Accueil Touristique</span>
+            <span class="domain-tag">Responsable Établissement Touristique</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Développez vos compétences dans le tourisme et l'hôtellerie, secteurs en plein essor à Mayotte.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">RNCP reconnu</span>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="formation-card">
+        <div class="formation-card-top">
+          <div class="formation-badge">Formation Initiale</div>
+          <h3>BTS & Prépa BAC</h3>
+          <div class="niveau">Niveau 4 à 5 · BAC et BTS</div>
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-domains">
+            <span class="domain-tag">BTS Gestion de la PME</span>
+            <span class="domain-tag">Préparation BAC</span>
+            <span class="domain-tag">Formateur Pro d'Adultes</span>
+          </div>
+          <p style="font-size:13px;color:#6b7280;line-height:1.65;">Obtenez votre BTS ou votre BAC dans un cadre pédagogique structuré et adapté à votre profil.</p>
+        </div>
+        <div class="formation-card-footer">
+          <a href="#contact" class="link">En savoir plus <div class="arrow-right">›</div></a>
+          <span style="font-size:11.5px;color:#6b7280;">Diplôme d'État</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRÉSENTATION ═══ -->
+<section class="about-section" id="presentation">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-visual">
+        <div class="about-img-placeholder">
+          <span class="placeholder-text">IFPF</span>
+          <p>Institut de Formation Professionnelle de France</p>
+        </div>
+        <div class="about-badge-float">
+          <div class="big">Qualiopi</div>
+          <div class="small">Certification qualité</div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-label">Présentation</div>
+        <h2>L'<em>IFPF</em>, votre partenaire formation à Chirongui</h2>
+        <p class="lead">L'Institut de Formation Professionnelle de France propose des formations initiales et continues reconnues par l'État, dans un environnement pédagogique moderne et bienveillant.</p>
+
+        <div class="about-list">
+          <div class="about-list-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <h4>Formations certifiées Ministère du Travail</h4>
+              <p>Tous nos titres professionnels sont inscrits au RNCP et reconnus à l'échelle nationale.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <h4>Équipements pédagogiques modernes</h4>
+              <p>Salles équipées de vidéoprojecteurs, connexion Wi-Fi, salle informatique dédiée et espace détente.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <h4>Accompagnement personnalisé</h4>
+              <p>Suivi individuel de chaque apprenant par des formateurs expérimentés et passionnés.</p>
+            </div>
+          </div>
+          <div class="about-list-item">
+            <div class="check-icon">✓</div>
+            <div>
+              <h4>Insertion professionnelle garantie</h4>
+              <p>Réseau d'entreprises partenaires et accompagnement actif vers l'emploi dès la sortie de formation.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary" style="display:inline-block">Prendre rendez-vous</a>
+      </div>
+    </div>
+
+    <!-- EQUIP -->
+    <div class="equip-grid" style="margin-top:80px;">
+      <div class="equip-card">
+        <div class="equip-icon">🖥️</div>
+        <h4>4</h4>
+        <p>Salles de formation équipées de vidéoprojecteurs</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">💻</div>
+        <h4>1</h4>
+        <p>Salle informatique dédiée aux apprenants</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">📶</div>
+        <h4>WiFi</h4>
+        <p>Connexion haut débit dans tout l'établissement</p>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">☕</div>
+        <h4>1</h4>
+        <p>Espace détente pour les apprenants</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VALEURS ═══ -->
+<section class="valeurs-section" id="valeurs">
+  <div class="container">
+    <div class="section-label">Ce qui nous définit</div>
+    <h2>Nos valeurs &amp; <em>engagements</em></h2>
+    <p class="lead" style="color:rgba(255,255,255,0.65);">Chaque formation dispensée à l'IFPF repose sur des principes fondamentaux qui guident notre action au quotidien.</p>
+
+    <div class="valeurs-grid">
+      <div class="valeur-card">
+        <div class="valeur-num">01</div>
+        <div class="valeur-icon">🏆</div>
+        <h3>Excellence</h3>
+        <p>Nous sélectionnons des formateurs experts et proposons des contenus pédagogiques constamment mis à jour pour garantir la meilleure qualité d'enseignement.</p>
+      </div>
+      <div class="valeur-card">
+        <div class="valeur-num">02</div>
+        <div class="valeur-icon">🌍</div>
+        <h3>Diversité &amp; Inclusion</h3>
+        <p>Nous accueillons tous les profils — demandeurs d'emploi, salariés en reconversion, jeunes et adultes — dans un environnement respectueux et inclusif.</p>
+      </div>
+      <div class="valeur-card">
+        <div class="valeur-num">03</div>
+        <div class="valeur-icon">🤝</div>
+        <h3>Communauté</h3>
+        <p>Nos apprenants forment une communauté soudée. Nous croyons que la réussite individuelle s'ancre dans la solidarité et le partage collectif.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ POURQUOI NOUS CHOISIR ═══ -->
+<section class="pourquoi-section" id="pourquoi">
+  <div class="container">
+    <div class="pourquoi-grid">
+      <div>
+        <div class="section-label">Nos atouts</div>
+        <h2>Pourquoi choisir <em>l'IFPF</em> ?</h2>
+        <p class="lead">Des raisons concrètes de nous faire confiance pour votre formation professionnelle.</p>
+        <div class="pourquoi-list" style="margin-top:36px;">
+          <div class="pourquoi-item">
+            <div class="pourquoi-num">01</div>
+            <div class="pourquoi-text">
+              <h4>Formations certifiées et reconnues par l'État</h4>
+              <p>Tous nos titres sont inscrits au Répertoire National des Certifications Professionnelles (RNCP).</p>
+            </div>
+          </div>
+          <div class="pourquoi-item">
+            <div class="pourquoi-num">02</div>
+            <div class="pourquoi-text">
+              <h4>Formateurs experts et expérimentés</h4>
+              <p>Notre équipe pédagogique est composée de professionnels du secteur avec une longue expérience terrain.</p>
+            </div>
+          </div>
+          <div class="pourquoi-item">
+            <div class="pourquoi-num">03</div>
+            <div class="pourquoi-text">
+              <h4>Entrée et sortie permanentes</h4>
+              <p>Nos formations en continue permettent une inscription tout au long de l'année selon vos disponibilités.</p>
+            </div>
+          </div>
+          <div class="pourquoi-item">
+            <div class="pourquoi-num">04</div>
+            <div class="pourquoi-text">
+              <h4>Financement CPF, Pôle Emploi, OPCO</h4>
+              <p>Nous vous accompagnons dans le montage de votre dossier de financement pour une formation sans reste à charge.</p>
+            </div>
+          </div>
+          <div class="pourquoi-item">
+            <div class="pourquoi-num">05</div>
+            <div class="pourquoi-text">
+              <h4>Réseau d'entreprises partenaires actif</h4>
+              <p>Nous mettons en relation nos diplômés avec nos entreprises partenaires à Mayotte et en France métropolitaine.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pourquoi-visual">
+        <div class="qualiopi-badge">
+          <div class="qualiopi-icon">🏅</div>
+          <div class="qualiopi-text">
+            <h4>Certification QUALIOPI</h4>
+            <p>Garantie de qualité pour vos formations professionnelles</p>
+          </div>
+        </div>
+        <p style="font-size:13.5px;color:#6b7280;margin-bottom:20px;line-height:1.7;">L'IFPF est certifié QUALIOPI, gage d'un engagement permanent envers la qualité des formations et la satisfaction des apprenants.</p>
+        <div class="cert-grid">
+          <div class="cert-item">📋<br>Titres RNCP</div>
+          <div class="cert-item">💼<br>CPF éligible</div>
+          <div class="cert-item">🎯<br>Pôle Emploi</div>
+          <div class="cert-item">🏛️<br>Ministère du Travail</div>
+        </div>
+        <div style="margin-top:24px; padding: 20px; background: var(--navy); border-radius: 4px;">
+          <p style="font-size:12.5px;color:rgba(255,255,255,0.65);text-align:center;margin-bottom:6px;">Taux d'insertion professionnelle</p>
+          <p style="font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:var(--gold);text-align:center;line-height:1;">85%</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;">dans les 6 mois suivant la formation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPRENTISSAGE ═══ -->
+<section class="apprentissage-section" id="apprentissage">
+  <div class="container">
+    <div class="apprent-inner">
+      <div>
+        <div class="section-label">Alternance</div>
+        <h2>L'<em>Apprentissage</em>, la clé de votre insertion</h2>
+        <p class="lead">Vous voulez vous former tout en percevant un salaire ? L'apprentissage est LA solution — théorie à l'IFPF, pratique en entreprise.</p>
+
+        <div class="apprent-steps">
+          <div class="step">
+            <div class="step-line"></div>
+            <div class="step-dot">1</div>
+            <div>
+              <h4>Déposer votre candidature</h4>
+              <p>Remplissez notre formulaire en ligne ou venez directement à l'IFPF à Chirongui.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-line"></div>
+            <div class="step-dot">2</div>
+            <div>
+              <h4>Trouver votre employeur</h4>
+              <p>Nous vous mettons en relation avec notre réseau d'entreprises partenaires à Mayotte.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-line"></div>
+            <div class="step-dot">3</div>
+            <div>
+              <h4>Alterner école et entreprise</h4>
+              <p>Rythme adapté : 3 semaines en entreprise, 1 semaine à l'IFPF — tout au long de l'année.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-dot">4</div>
+            <div>
+              <h4>Obtenir votre titre professionnel</h4>
+              <p>Validez votre diplôme RNCP et accédez à un emploi stable dans votre domaine.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:var(--navy);padding:40px;border-radius:4px;color:white;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);margin-bottom:16px;">Apprentissage — Vos avantages</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;">
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:14px;color:rgba(255,255,255,0.75);">
+              <span style="color:var(--gold);font-size:18px;margin-top:-2px;">✓</span>
+              <span>Salaire mensuel versé par l'entreprise pendant toute la formation</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:14px;color:rgba(255,255,255,0.75);">
+              <span style="color:var(--gold);font-size:18px;margin-top:-2px;">✓</span>
+              <span>Formation prise en charge à 100% par l'OPCO</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:14px;color:rgba(255,255,255,0.75);">
+              <span style="color:var(--gold);font-size:18px;margin-top:-2px;">✓</span>
+              <span>Expérience professionnelle reconnue dès l'entrée en formation</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:14px;color:rgba(255,255,255,0.75);">
+              <span style="color:var(--gold);font-size:18px;margin-top:-2px;">✓</span>
+              <span>85% des apprentis trouvent un emploi dans les 6 mois</span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;font-size:14px;color:rgba(255,255,255,0.75);">
+              <span style="color:var(--gold);font-size:18px;margin-top:-2px;">✓</span>
+              <span>Titre RNCP reconnu sur tout le territoire national</span>
+            </li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="display:block;text-align:center;margin-top:28px;">Candidater en apprentissage</a>
+        </div>
+
+        <div style="margin-top:20px;background:var(--off-white);padding:24px 28px;border-radius:4px;border:1px solid var(--gray-light);">
+          <p style="font-size:13px;color:var(--gray);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Conditions d'accès</p>
+          <p style="font-size:13.5px;color:var(--navy);line-height:1.7;">Demandeurs d'emploi inscrits depuis au moins 3 mois · Niveau 4 (BAC) ou équivalent requis · Nationalité française ou titre de séjour valide · Prescription Mission Locale ou Pôle Emploi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TÉMOIGNAGES ═══ -->
+<section class="temoignages-section" id="temoignages">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0;">
+      <div class="section-label" style="justify-content:center;">Ils témoignent</div>
+      <h2>La réussite de nos <em>apprenants</em></h2>
+    </div>
+    <div class="temo-grid">
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p class="temo-text">Grâce au soutien et à l'énergie déployés par les formateurs de l'IFPF, j'ai pu surmonter mes difficultés et obtenir mon titre professionnel. Je recommande vivement cet institut !</p>
+        <div class="temo-author">
+          <div class="temo-avatar">F</div>
+          <div class="temo-info">
+            <h5>Fatima A.</h5>
+            <span>Promotion IFPF 2023 · Secrétaire Assistante</span>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p class="temo-text">L'IFPF m'a permis de me reconvertir dans le numérique. La formation Développeur Web était très complète. J'ai trouvé un emploi deux mois après l'obtention de mon titre.</p>
+        <div class="temo-author">
+          <div class="temo-avatar">M</div>
+          <div class="temo-info">
+            <h5>Mohamed I.</h5>
+            <span>Promotion IFPF 2022 · Développeur Web</span>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card">
+        <div class="temo-stars">★★★★★</div>
+        <p class="temo-text">Pour réussir j'avais besoin d'être encadrée, suivie et conseillée. Chose faite car le diplôme est en poche grâce à l'IFPF. Merci à toute l'équipe pédagogique !</p>
+        <div class="temo-author">
+          <div class="temo-avatar">S</div>
+          <div class="temo-info">
+            <h5>Sitti R.</h5>
+            <span>Promotion IFPF 2023 · Assistante RH</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RELATION ENTREPRISE ═══ -->
+<section class="entreprise-section" id="entreprise">
+  <div class="container">
+    <div class="entreprise-inner">
+      <div>
+        <div class="section-label">Partenaires</div>
+        <h2>Relation <em>Entreprise</em></h2>
+        <p class="lead">L'IFPF est votre partenaire RH de confiance. Nous mettons à votre disposition les meilleurs apprenants de Mayotte pour vos stages et recrutements.</p>
+        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:32px;">Devenir partenaire IFPF</a>
+      </div>
+      <div class="entreprise-cards">
+        <a href="#contact" class="ent-card">
+          <div class="ent-icon">👷</div>
+          <div>
+            <h4>Recruter un apprenti</h4>
+            <p>Formez vos futurs collaborateurs à votre image, à moindre coût et avec des aides financières.</p>
+          </div>
+          <span style="color:var(--gold);font-size:20px;margin-left:auto;">›</span>
+        </a>
+        <a href="#contact" class="ent-card">
+          <div class="ent-icon">📄</div>
+          <div>
+            <h4>Déposer une offre de stage</h4>
+            <p>Accédez à des candidats motivés, rigoureusement sélectionnés et opérationnels.</p>
+          </div>
+          <span style="color:var(--gold);font-size:20px;margin-left:auto;">›</span>
+        </a>
+        <a href="#contact" class="ent-card">
+          <div class="ent-icon">🤝</div>
+          <div>
+            <h4>Devenir partenaire IFPF</h4>
+            <p>Rejoignez notre réseau d'entreprises partenaires et bénéficiez d'un accès prioritaire à nos diplômés.</p>
+          </div>
+          <span style="color:var(--gold);font-size:20px;margin-left:auto;">›</span>
+        </a>
+        <a href="#contact" class="ent-card">
+          <div class="ent-icon">📊</div>
+          <div>
+            <h4>Formation sur mesure en entreprise</h4>
+            <p>Nous concevons des formations intra-entreprise adaptées aux besoins spécifiques de vos équipes.</p>
+          </div>
+          <span style="color:var(--gold);font-size:20px;margin-left:auto;">›</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACTUALITÉS ═══ -->
+<section class="actu-section" id="actualites">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:0;">
+      <div>
+        <div class="section-label">Blog & Nouvelles</div>
+        <h2>Nos <em>actualités</em></h2>
+      </div>
+      <a href="#contact" style="font-size:13px;font-weight:700;color:var(--gold);text-decoration:none;text-transform:uppercase;letter-spacing:1px;">Voir tout →</a>
+    </div>
+    <div class="actu-grid">
+      <div class="actu-card">
+        <div class="actu-img" style="background:linear-gradient(135deg,#0d1f3c,#162d54);">
+          🎓
+          <div class="actu-date">Avril 2025</div>
+        </div>
+        <div class="actu-body">
+          <div class="actu-cat">Formations</div>
+          <h4>Nouvelle session de formation : Développeur Web — Inscriptions ouvertes</h4>
+          <p>L'IFPF lance une nouvelle session de formation Développeur Web (titre RNCP niveau 5) à partir de juin 2025. Places limitées.</p>
+        </div>
+        <div class="actu-footer"><a href="#contact" class="actu-link">Lire la suite →</a></div>
+      </div>
+      <div class="actu-card">
+        <div class="actu-img" style="background:linear-gradient(135deg,#1a3a1a,#2d5a2d);">
+          🤝
+          <div class="actu-date">Mars 2025</div>
+        </div>
+        <div class="actu-body">
+          <div class="actu-cat">Partenariats</div>
+          <h4>L'IFPF signe un nouveau partenariat avec des entreprises locales de Mayotte</h4>
+          <p>De nouveaux accords ont été signés pour faciliter l'insertion professionnelle de nos apprenants diplômés.</p>
+        </div>
+        <div class="actu-footer"><a href="#contact" class="actu-link">Lire la suite →</a></div>
+      </div>
+      <div class="actu-card">
+        <div class="actu-img" style="background:linear-gradient(135deg,#3a1a0d,#6b3010);">
+          📜
+          <div class="actu-date">Février 2025</div>
+        </div>
+        <div class="actu-body">
+          <div class="actu-cat">Certification</div>
+          <h4>L'IFPF renouvelle sa certification QUALIOPI pour la période 2025–2027</h4>
+          <p>Notre certification QUALIOPI a été renouvelée, confirmant notre engagement envers la qualité des formations.</p>
+        </div>
+        <div class="actu-footer"><a href="#contact" class="actu-link">Lire la suite →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BAND ═══ -->
+<div class="cta-band">
+  <div class="cta-inner">
+    <h2>Ensemble, brisons les barrières — <span>Contactez-nous pour l'Inclusion !</span></h2>
+    <a href="#contact" class="cta-btn">Nous contacter →</a>
+  </div>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0;">
+      <div class="section-label" style="justify-content:center;">Nous joindre</div>
+      <h2>Contactez <em>l'IFPF</em></h2>
+      <p class="lead" style="margin:0 auto;">Pour toute demande concernant vos projets de formation ou d'inscription, écrivez-nous ou venez nous rendre visite à Chirongui, Mayotte.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-card">
+          <div class="contact-card-icon">📍</div>
+          <div>
+            <h4>Adresse</h4>
+            <p>Institut de Formation Professionnelle de France<br>400 Avenue Said Vitta<br>97620 Chirongui, Mayotte</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">📞</div>
+          <div>
+            <h4>Téléphone</h4>
+            <a href="tel:0697379297">0697 379 02 97</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">📠</div>
+          <div>
+            <h4>Fax</h4>
+            <p>0269 60 78 47</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">✉️</div>
+          <div>
+            <h4>E-mail</h4>
+            <a href="mailto:contact@ifpf.pro">contact@ifpf.pro</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">🌐</div>
+          <div>
+            <h4>Site web</h4>
+            <a href="https://www.ifpf.pro" target="_blank">www.ifpf.pro</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>Envoyez-nous un message</h3>
+        <p>Nous vous répondons sous 48 heures ouvrées.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" placeholder="Votre prénom">
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" placeholder="Votre nom">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="votre@email.com">
+          </div>
+          <div class="form-group">
+            <label>Téléphone</label>
+            <input type="tel" placeholder="06 97 ...">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Objet de votre demande</label>
+          <select>
+            <option>— Sélectionnez —</option>
+            <option>Inscription à une formation</option>
+            <option>Demande de renseignements</option>
+            <option>Partenariat entreprise</option>
+            <option>Apprentissage</option>
+            <option>Autre demande</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Votre message</label>
+          <textarea placeholder="Décrivez votre projet de formation, vos questions..."></textarea>
+        </div>
+        <button class="form-submit">Envoyer le message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.0!2d45.0!3d-12.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU0JzAwLjAiUyA0NcKwMDAnMDAuMCJF!5e0!3m2!1sfr!2sfr!4v1234567890!5m2!1sfr!2sfr"
+    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+    title="Localisation IFPF Chirongui Mayotte">
+  </iframe>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="newsletter-stripe">
+    <div class="newsletter-inner">
+      <p><strong>Inscription à la newsletter IFPF</strong> — Recevez nos actualités et nouvelles formations</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Votre adresse e-mail">
+        <button>S'inscrire</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#accueil" class="logo">
+        <div class="logo-mark"><span>IF</span></div>
+        <div class="logo-text">
+          <span class="abbr" style="color:white;">IFPF</span>
+          <span class="full" style="color:rgba(255,255,255,0.4);">Institut de Formation Professionnelle de France</span>
+        </div>
+      </a>
+      <p>L'Institut de Formation Professionnelle de France propose des formations initiales et continues certifiées, pour construire votre avenir professionnel à Mayotte.</p>
+      <div class="social">
+        <a href="#" class="social-btn" title="Facebook">f</a>
+        <a href="#" class="social-btn" title="LinkedIn">in</a>
+        <a href="#" class="social-btn" title="WhatsApp">W</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>L'IFPF</h4>
+      <ul>
+        <li><a href="#presentation">Présentation</a></li>
+        <li><a href="#pourquoi">Pourquoi nous choisir</a></li>
+        <li><a href="#valeurs">Nos valeurs</a></li>
+        <li><a href="#temoignages">Témoignages</a></li>
+        <li><a href="#actualites">Actualités</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Formations</h4>
+      <ul>
+        <li><a href="#formations">Secrétariat &amp; RH</a></li>
+        <li><a href="#formations">Commerce &amp; Vente</a></li>
+        <li><a href="#formations">Comptabilité</a></li>
+        <li><a href="#formations">Numérique</a></li>
+        <li><a href="#formations">Tourisme</a></li>
+        <li><a href="#formations">BTS &amp; BAC</a></li>
+        <li><a href="#contact">Candidature en ligne</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">400 Av. Said Vitta, 97620 Chirongui</a></li>
+        <li><a href="tel:0697379297">📞 0697 379 02 97</a></li>
+        <li><a href="#">📠 0269 60 78 47</a></li>
+        <li><a href="mailto:contact@ifpf.pro">✉ contact@ifpf.pro</a></li>
+        <li><a href="https://www.ifpf.pro">🌐 www.ifpf.pro</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom-outer">
+    <div class="footer-bottom">
+      <p>© IFPF 2025 — Institut de Formation Professionnelle de France</p>
+      <div class="footer-bottom-links">
+        <a href="#mentions">Mentions légales</a>
+        <a href="#mentions">Politique de confidentialité</a>
+        <a href="#mentions">Accessibilité</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/330697379297" class="whatsapp-float" target="_blank" title="WhatsApp IFPF">💬</a>
+
+<!-- BACK TO TOP -->
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<script>
+  // Back to top visibility
+  window.addEventListener('scroll', () => {
+    document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Smooth active nav link
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-menu a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+  });
+
+  // Form submit demo
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    this.textContent = '✓ Message envoyé !';
+    this.style.background = '#16a34a';
+    setTimeout(() => { this.textContent = 'Envoyer le message →'; this.style.background = ''; }, 3000);
+  });
+
+  document.querySelector('.card-form button').addEventListener('click', function() {
+    this.textContent = '✓ Candidature envoyée !';
+    setTimeout(() => { this.textContent = 'Envoyer ma candidature →'; }, 3000);
+  });
+</script>
+</body>
+</html>
